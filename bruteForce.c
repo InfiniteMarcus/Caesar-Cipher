@@ -1,11 +1,11 @@
 /*
- * --------------------------------------------
- * Implementacao simples de um algoritmo de
- * forca bruta de cifra de Cesar na linguagem C
+ * ----------------------------------------------
+ * Simple implementation of a Caesar cipher brute
+ * force algoritm in C language
  * 
  * UFSCar campus Sorocaba - Hackerspace - 2020
  * by: Infinitemarcus
- * --------------------------------------------
+ * ----------------------------------------------
  */
 
 #include <stdio.h>
@@ -14,74 +14,58 @@
 #include "caesarCipher.h"
 
 /*
- * Funcao que decodifica a frase fornecida, ate encontrar
- * a mesma frase original, antes de aplicar a cifra de cesar
- * 
- * Uma variavel temporaria eh usada pois a funcao de decriptar, fornecida
- * em "cesar.c" altera o valor original da string fornecida
- * 
- * Um loop eh executado ateh que ou a frase original seja encontrada a partir
- * da funcao de decriptar, ou ateh que o algoritmo chegue na chave 26
- * 
- * Caso a frase tenha sido encontrada, a chave usada eh impressa na tela
- * 
- * Os tempos antes e depois da execucao do loop sao anotados e retornados para a main
+ * Function decripting the message with brute force, calling
+ * decript() from "caesarCipher.h" multiple times
 */ 
-double decodifica(char * frase, char * outraFrase){
+double forcingDecode(char * message){
 	
-	int chave = 1;
-	char temp[200];
+	int key = 1;
+	char temporary[200];
 	
-	strcpy(temp, frase);
 	
-	clock_t agora = clock();
+	//Using a temporary string because decript() overwrite the string
+	strcpy(temporary, message);
 	
-	while(strcmp(temp, outraFrase) && chave < 26){
-		decripta(temp, chave);
+	clock_t before = clock();
+	
+	/*
+	 * Loop calculating and printing every
+	 * possible decripted message, with keys
+	 * 1-25 
+	*/
+	while(key < 26){
+		decript(temporary, key);
 		
-		printf("Chave usada: %d \n", chave);
-		printf("%s \n", temp);
+		printf("Using key: %d \n", key);
+		printf("%s\n", temporary);
 		
-		if(strcmp(temp, outraFrase))
-			strcpy(temp, frase);
-		else
-			strcpy(frase, temp);
+		strcpy(temporary, message);
 		
-		chave++;
+		key++;
 	}
 
-	clock_t depois = clock();
+	clock_t after = clock();
 	
-	if(strcmp(temp,outraFrase) == 0)
-		printf("Chave de criptografia encontrada: %d\n", chave-1);
-
-	return (( double ) ( depois - agora ) / CLOCKS_PER_SEC);
+	//Calculating and returning the execution time
+	return ((( double ) after - before) / CLOCKS_PER_SEC);
 }
 
 
 /*
- * Funcao main, com a chamada da funcao de decodificacao e
- * a apresentacao do tempo de execucao do loop da mesma,
- * alem da frase decriptada
+ * main(), calling forcingDecore function
 */
 int main(){
 	
-	char frase[200];
-	char outraFrase[200];
+	char message[200];
 	
-	printf("Digite a frase criptografada: ");
-	scanf("%[^\n]", frase);
+	printf("Type the encripted message: ");
+	scanf("%[^\n]", message);
 	getchar();
 	
-	printf("Digite a frase desejada: ");
-	scanf("%[^\n]", outraFrase);
-	getchar();
+	double timer = forcingDecode(message);
 	
-	double timer = decodifica(frase, outraFrase);
-	
-	printf("Tempo gasto: %.14lf \n", timer);
-	
-	printf("Frase decodificada: %s \n", frase);
+	// In the end, the algorithm total execution time is shown
+	printf("Time spend: %.14lf \n", timer);
 	
 	return 0;
 }

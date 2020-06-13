@@ -1,95 +1,102 @@
-/*
- * ------------------------------------------------
- * Declaracao de funcoes para implementacao simples 
- * de uma cifra de Cesar na linguagem C
+  /*
+ * ------------------------------------------------------
+ * Implementation of simple encript and decript functions
+ * for Caesar Cipher in C language
  * 
  * UFSCar campus Sorocaba - Hackerspace - 2020
  * by: Infinitemarcus
- * ------------------------------------------------
+ * ------------------------------------------------------
  */
 
-/*
- * Funcao que encripta a mensagem fornecida
- * utilizando o algoritmo da cifra de Cesar, uma dada frase 
- * e uma dada chave numerica
- * 
- * Cada caracter da frase eh percorrido em um loop,
- * ateh encontrar o final (\0). A criptografia eh feita
- * ao se adicionar ao caracter o valor da chave fornecida
- * 
- * Os caracteres que não são letras na tabela ASCII sao preservados
-*/ 
-void encripta(char * frase, int chave){
 
-	char novaFrase[200];
+/*
+ * Encript function for Caesar Cipher, using ASCII letters
+ * 
+ * Non-ASCII chars are preserved
+*/ 
+void encript(char * message, int key){
+
+	char newMessage[200];
 	int i = 0;
 	
-	while(frase[i] != '\0'){
+	/*
+	 * Looping every char from message, applying
+	 * the key to get the encripted message 
+	*/ 
+	while(message[i] != '\0'){
 		
-		novaFrase[i] = frase[i] + chave;
+		newMessage[i] = message[i] + key;
 			
-		if(frase[i] <= 122 && frase[i] >= 97){
-			if((frase[i] + chave) > 122)
-					novaFrase[i] -= 26;
+		//Verifying overflow in lowerCase chars 
+		if(message[i] <= 122 && message[i] >= 97){
+			if((message[i] + key) > 122)
+					newMessage[i] -= 26;
 				
-			if((frase[i] + chave) < 97)
-					novaFrase[i] += 26;
+			if((message[i] + key) < 97)
+					newMessage[i] += 26;
 						
-		}else if(frase[i] <= 90 && frase[i] >= 65){
-			if((frase[i] + chave) > 90)
-					novaFrase[i] -= 26;
+		//Verifying overflow in upperCase chars 
+		}else if(message[i] <= 90 && message[i] >= 65){
+			if((message[i] + key) > 90)
+					newMessage[i] -= 26;
 				
-			if((frase[i] + chave) < 65)
-					novaFrase[i] += 26;
+			if((message[i] + key) < 65)
+					newMessage[i] += 26;
+					
+		//Non-ASCII chars
 		}else
-			novaFrase[i] -= chave;
+			newMessage[i] -= key;
                 
         i++;
 	}
-	novaFrase[i] = '\0';
+	newMessage[i] = '\0';
 	
-	strcpy(frase, novaFrase);
+	//Overwriting original message
+	strcpy(message, newMessage);
 }
 
 /*
- * Funcao que decripta a mensagem fornecida
- * utilizando o algoritmo da cifra de Cesar, uma dada frase
- * criptografada e uma dada chave numerica
+ * Decript function for Caesar Cipher, using ASCII letters
  * 
- * Cada caracter da frase eh percorrido em um loop,
- * ateh encontrar o final (\0). A criptografia eh desfeita
- * ao se subtrair ao caracter o valor da chave fornecida
- * 
- * Os caracteres que não são letras na tabela ASCII sao preservados
+ * Non-ASCII chars are preserved
 */ 
-void decripta(char * frase, int chave){
+void decript(char * message, int key){
 	
-	char novaFrase[200];
+	char newMessage[200];
 	int i = 0; 
 	
-	while(frase[i] != '\0'){
+	/*
+	 * Looping every char from message, applying
+	 * the key to get the original message 
+	*/ 
+	while(message[i] != '\0'){
 		
-		novaFrase[i] = frase[i] - chave;
-			
-		if(frase[i] <= 122 && frase[i] >= 97){
-			if((frase[i] - chave) > 122)
-					novaFrase[i] -= 26;
+		newMessage[i] = message[i] - key;
+		
+		//Verifying overflow in lowerCase chars 
+		if(message[i] <= 122 && message[i] >= 97){
+			if((message[i] - key) > 122)
+					newMessage[i] -= 26;
 				
-			if((frase[i] - chave) < 97)
-					novaFrase[i] += 26;
-						
-		}else if(frase[i] <= 90 && frase[i] >= 65){
-			if((frase[i] - chave) > 90)
-					novaFrase[i] -= 26;
+			if((message[i] - key) < 97)
+					newMessage[i] += 26;
+					
+		//Verifying overflow in upperCase chars 
+		}else if(message[i] <= 90 && message[i] >= 65){
+			if((message[i] - key) > 90)
+					newMessage[i] -= 26;
 				
-			if((frase[i] - chave) < 65)
-					novaFrase[i] += 26;
+			if((message[i] - key) < 65)
+					newMessage[i] += 26;
+					
+		//Non-ASCII chars
 		}else
-			novaFrase[i] += chave;
+			newMessage[i] += key;
                 
         i++;
 	}
-	novaFrase[i] = '\0';
+	newMessage[i] = '\0';
 	
-	strcpy(frase, novaFrase);
+	//Overwriting original message
+	strcpy(message, newMessage);
 }

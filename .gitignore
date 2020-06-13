@@ -1,1 +1,4 @@
 LICENSE
+*.exe
+*.o
+*.gch

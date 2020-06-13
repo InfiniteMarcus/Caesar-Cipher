@@ -1,7 +1,7 @@
 /*
  * -------------------------------------------
- * Implementacao simples de uma cifra de Cesar
- * na linguagem C
+ * Simple implementation of Caesar cipher in C
+ * language
  * 
  * UFSCar campus Sorocaba - Hackerspace - 2020
  * by: Infinitemarcus
@@ -14,43 +14,49 @@
 #include "caesarCipher.h"
 
 /*
- * Funcao main, com as chamadas de funcao para encriptar
- * e decriptar a mensagem
- * 
- * No fim, o tempo de execucacao total do programa eh mostrado
+ * main(), calling encription and decript functions
+ * from "caesarCipher.h"
 */
 int main(){
 	
-	char frase[200];
-	int chave;
+	char message[200];
+	int key;
 	
-	printf("Digite a frase a ser encriptada: \n");
-	scanf("%[^\n]", frase);
+	printf("Type you message: \n");
+	scanf("%[^\n]", message);
 	getchar();
 	
-	printf("Digite a chave de referencia\n");
-	scanf("%d", &chave);
+	printf("Type the encription key\n");
+	scanf("%d", &key);
 	
-	//Para visualizar entrada:
-	//printf("Frase escolhida: %s \n", frase);
-	//printf("Chave escolhida: %d \n", chave);
-	
-	//Tratamento de entrada da chave
-	if(chave > 25 || chave < 1){
-		chave %= 25;
+	/*
+     * To prevent bugs, key needs to be >= 1 and <= 25,
+     * So there is a key validation
+	*/ 
+	if(key > 25 || key < 1){
+		key %= 25;
+		//printf("New key: %d \n", key);
 	}
 	
-	clock_t agora = clock();
+	clock_t before = clock();
 	
-	encripta(frase, chave);
-	printf("Encriptado: %s \n", frase);
+	/*
+	 * Both encript() and decript() overwrite the message string
+	 * with the new value
+	*/
 	
-	decripta(frase, chave);
-	printf("Decriptado: %s \n", frase);
+	encript(message, key);
+	printf("Encripted: %s \n", message);
 	
-	clock_t depois = clock();
+	decript(message, key);
+	printf("Decripted: %s \n", message);
 	
-	printf("Tempo gasto (encriptar e decriptar): %.14lf \n", (( double ) ( depois - agora ) / CLOCKS_PER_SEC));
+	clock_t after = clock();
+	
+	// In the end, the algorithms total execution time is calculated and shown
+	double diff = ( double ) ( after - before ) / CLOCKS_PER_SEC;
+	
+	printf("Time spend (encript and decript): %.15lf \n", diff);
 	
 	return 0;
 }
