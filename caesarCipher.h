@@ -8,6 +8,8 @@
  * ------------------------------------------------------
  */
 
+#include <stdio.h>
+#include <string.h>
 
 /*
  * Encript function for Caesar Cipher, using ASCII letters
