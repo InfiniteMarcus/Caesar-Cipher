@@ -10,10 +10,10 @@ To compile and execute the codes, you can use the following steps:
 ## Caesar Cipher program:
 * Compile: 
 	* `gcc main.c caesarCipher.c -o caesar`
-	* `make` (if using Make tool)
+	* `make` (if using [Make](https://en.wikipedia.org/wiki/Make_(software)))
 * Execute: `./caesar`
 ## Brute Force program:
 * Compile: 
 	* `gcc bruteForce.c caesarCipher.c -o brute`
-	* `make brute` (if using Make tool)
+	* `make brute` (if using [Make](https://en.wikipedia.org/wiki/Make_(software)))
 * Execute: `./brute`
