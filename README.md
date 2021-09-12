@@ -9,11 +9,11 @@ To compile and execute the codes, use the following commands:
 
 
 ```
-	gcc caesarCipher.c caesarCipher.h -o caesar
+	gcc main.c caesarCipher.c -o caesar
 ```
 
 And
 
 ```
-	gcc bruteForce.c caesarCipher.h -o brute
+	gcc bruteForce.c caesarCipher.c -o brute
 ```

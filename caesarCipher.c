@@ -1,63 +1,104 @@
-/*
- * -------------------------------------------
- * Simple implementation of Caesar cipher in C
- * language
+  /*
+ * ------------------------------------------------------
+ * Implementation of simple encript and decript functions
+ * for Caesar Cipher in C language
  * 
  * UFSCar campus Sorocaba - Hackerspace - 2020
  * by: Infinitemarcus
- * -------------------------------------------
+ * ------------------------------------------------------
  */
 
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
-#include "caesarCipher.h"
 
 /*
- * main(), calling encription and decript functions
- * from "caesarCipher.h"
-*/
-int main(){
-	
-	char message[200];
-	int key;
-	
-	printf("Type you message: \n");
-	scanf("%[^\n]", message);
-	getchar();
-	
-	printf("Type the encription key\n");
-	scanf("%d", &key);
+ * Encript function for Caesar Cipher, using ASCII letters
+ * 
+ * Non-ASCII chars are preserved
+*/ 
+void encript(char * message, int key){
+
+	char newMessage[200];
+	int i = 0;
 	
 	/*
-     * To prevent bugs, key needs to be >= 1 and <= 25,
-     * So there is a key validation
+	 * Looping every char from message, applying
+	 * the key to get the encripted message 
 	*/ 
-	if(key > 25 || key < 1){
-		key %= 25;
-		//printf("New key: %d \n", key);
+	while(message[i] != '\0'){
+		
+		newMessage[i] = message[i] + key;
+			
+		//Verifying overflow in lowerCase chars 
+		if(message[i] <= 122 && message[i] >= 97){
+			if((message[i] + key) > 122)
+					newMessage[i] -= 26;
+				
+			if((message[i] + key) < 97)
+					newMessage[i] += 26;
+						
+		//Verifying overflow in upperCase chars 
+		}else if(message[i] <= 90 && message[i] >= 65){
+			if((message[i] + key) > 90)
+					newMessage[i] -= 26;
+				
+			if((message[i] + key) < 65)
+					newMessage[i] += 26;
+					
+		//Non-ASCII chars
+		}else
+			newMessage[i] -= key;
+                
+        i++;
 	}
+	newMessage[i] = '\0';
 	
-	clock_t before = clock();
-	
-	/*
-	 * Both encript() and decript() overwrite the message string
-	 * with the new value
-	*/
-	
-	encript(message, key);
-	printf("Encripted: %s \n", message);
-	
-	decript(message, key);
-	printf("Decripted: %s \n", message);
-	
-	clock_t after = clock();
-	
-	// In the end, the algorithms total execution time is calculated and shown
-	double diff = ( double ) ( after - before ) / CLOCKS_PER_SEC;
-	
-	printf("Time spend (encript and decript): %.15lf \n", diff);
-	
-	return 0;
+	//Overwriting original message
+	strcpy(message, newMessage);
 }
 
+/*
+ * Decript function for Caesar Cipher, using ASCII letters
+ * 
+ * Non-ASCII chars are preserved
+*/ 
+void decript(char * message, int key){
+	
+	char newMessage[200];
+	int i = 0; 
+	
+	/*
+	 * Looping every char from message, applying
+	 * the key to get the original message 
+	*/ 
+	while(message[i] != '\0'){
+		
+		newMessage[i] = message[i] - key;
+		
+		//Verifying overflow in lowerCase chars 
+		if(message[i] <= 122 && message[i] >= 97){
+			if((message[i] - key) > 122)
+					newMessage[i] -= 26;
+				
+			if((message[i] - key) < 97)
+					newMessage[i] += 26;
+					
+		//Verifying overflow in upperCase chars 
+		}else if(message[i] <= 90 && message[i] >= 65){
+			if((message[i] - key) > 90)
+					newMessage[i] -= 26;
+				
+			if((message[i] - key) < 65)
+					newMessage[i] += 26;
+					
+		//Non-ASCII chars
+		}else
+			newMessage[i] += key;
+                
+        i++;
+	}
+	newMessage[i] = '\0';
+	
+	//Overwriting original message
+	strcpy(message, newMessage);
+}
